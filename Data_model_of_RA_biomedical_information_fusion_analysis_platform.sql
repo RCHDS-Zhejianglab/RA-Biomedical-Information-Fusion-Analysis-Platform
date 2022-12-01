@@ -292,7 +292,7 @@ create table C##RA_DM.experiment(
 	group_id	VARCHAR2(100) NOT NULL,
 	parameter_id	VARCHAR2(100) NOT NULL,
 	CONSTRAINT pk_experiment_exp PRIMARY KEY (exp_id),
-	CONSTRAINT fk_experiment_group PRIMARY KEY (group_id),
+	CONSTRAINT fk_experiment_group FOREIGN KEY (group_id),
 	CONSTRAINT fk_experiment_parameter FOREIGN KEY (parameter_id) REFERENCES C##RA_DM.parameter(parameter_id)
 );
 create index C##RA_DM.experiment_eid_idx on C##RA_DM.experiment(experiment_id) nologging;
@@ -303,9 +303,9 @@ create index C##RA_DM.experiment_pid_idx on C##RA_DM.experiment(parameter_id) no
 create table C##RA_DM.analysis(
 	analysis_id	VARCHAR2(100) NOT NULL,
 	analysis_type	VARCHAR2(100) NULL,
-	group_id	VARCHAR2(100) NOT NULL,
+	group_id	NUMBER NOT NULL,
 	exp_id	VARCHAR2(100) NOT NULL,
-	parameter_id	VARCHAR2(100) NOT NULL,
+	parameter_id	NUMBER NOT NULL,
 	CONSTRAINT pk_analysis PRIMARY KEY (analysis_id),
 	CONSTRAINT fk_analysis_group FOREIGN KEY (group_id) REFERENCES C##RA_DM.group(group_id),
 	CONSTRAINT fk_analysis_exp FOREIGN KEY (exp_id) REFERENCES C##RA_DM.experiment(exp_id),
@@ -318,23 +318,18 @@ create index C##RA_DM.analysis_pid_idx on C##RA_DM.analysis(parameter_id) nologg
 
 --==========group==========--
 create table C##RA_DM.group(
-	group_id VARCHAR2(100) NOT NULL,
+	group_id NUMBER NOT NULL,
 	group_name VARCHAR2(100) NULL,
 	grouo_address VARCHAR2(200) NOT NULL,
 
 	CONSTRAINT pk_group PRIMARY KEY (group_id),
-
-	CONSTRAINT fk_group_analysis FOREIGN KEY (analysis_id) REFERENCES C##RA_DM.analysis(analysis_id),
-	CONSTRAINT fk_group_exp FOREIGN KEY (exp_id) REFERENCES C##RA_DM.experiment(exp_id),
 );
 create index C##RA_DM.group_gid_idx on C##RA_DM.group(group_id) nologging;
-create index C##RA_DM.group_aid_idx on C##RA_DM.group(analysis_id) nologging;
-create index C##RA_DM.group_eid_idx on C##RA_DM.group(exp_id) nologging;
 
 
 --==========parameter==========--
 create table C##RA_DM.parameter(
-	parameter_id VARCHAR2(100) NOT NULL,
+	parameter_id NUMBER NOT NULL,
 	parameter_file VARCHAR2(100) NULL,
 	parameter_file_address VARCHAR2(200)  NULL,
 	analysis_id VARCHAR2(100) NOT NULL,
@@ -350,15 +345,19 @@ create index C##RA_DM.parameter_eid_idx on C##RA_DM.parameter(exp_id) nologging;
 
 --==========model==========--
 create table C##RA_DM.model(
-	model_id VARCHAR2(100) NOT NULL,
+	model_id NUMBER NOT NULL,
 	model_type VARCHAR2(100) NOT NULL,
 	model_file VARCHAR2(100) NULL,
 	model_file_address VARCHAR2(200)  NULL,
 	analysis_id VARCHAR2(100) NOT NULL,
 	exp_id VARCHAR2(100) NOT NULL,
+	group_id	NUMBER NOT NULL,
+	parameter_id	NUMBER NOT NULL,
 	CONSTRAINT pk_model PRIMARY KEY (model_id),
 	CONSTRAINT fk_model_analysis FOREIGN KEY (analysis_id) REFERENCES C##RA_DM.analysis(analysis_id),
 	CONSTRAINT fk_model_exp FOREIGN KEY (exp_id) REFERENCES C##RA_DM.experiment(exp_id)
+	CONSTRAINT fk_model_group FOREIGN KEY (group_id) REFERENCES C##RA_DM.group(group_id),
+	CONSTRAINT fk_model_parameter FOREIGN KEY (parameter_id) REFERENCES C##RA_DM.parameter(parameter_id)
 );
 create index C##RA_DM.model_pid_idx on C##RA_DM.model(model_id) nologging;
 create index C##RA_DM.model_aid_idx on C##RA_DM.model(analysis_id) nologging;
