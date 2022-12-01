@@ -1,4 +1,4 @@
---create time: 20221024
+--create time: 20220901
 -- database C##RA_DM
 -- set primary key 
 -- set index 
@@ -85,7 +85,7 @@ create table C##RA_DM.observation(
 	value_as_datetime	NUMBER NULL,
 	CONSTRAINT pk_observation PRIMARY KEY (observation_id),
 	CONSTRAINT fk_observation_person FOREIGN KEY (person_id) REFERENCES C##RA_DM.person(person_id),
-	CONSTRAINT fk_observation_visit_occurrence FOREIGN KEY (visit_occurrence_id) REFERENCES C##RA_DM.visit_occurrence(visit_occurrence_id) -- 需要确认表名
+	CONSTRAINT fk_observation_visit_occurrence FOREIGN KEY (visit_occurrence_id) REFERENCES C##RA_DM.visit_occurrence(visit_occurrence_id) 
 );
 create index C##RA_DM.OBSERVATION_OID_IDX on C##RA_DM.OBSERVATION(OBSERVATION_ID) nologging;
 create index C##RA_DM.OBSERVATION_PID_IDX on C##RA_DM.OBSERVATION(PERSON_ID) nologging;
@@ -116,8 +116,8 @@ create table C##RA_DM.measurement(
 	value_source_value	VARCHAR2(50) NULL,
 	CONSTRAINT pk_measurement PRIMARY KEY (measurement_id),
 	CONSTRAINT fk_measurement_person FOREIGN KEY (person_id) REFERENCES C##RA_DM.person(person_id),
-	CONSTRAINT fk_measurement_visit_occurrence FOREIGN KEY (visit_occurrence_id) REFERENCES C##RA_DM.visit_occurrence(visit_occurrence_id) -- 需要确认表名
-);
+	CONSTRAINT fk_measurement_visit_occurrence FOREIGN KEY (visit_occurrence_id) REFERENCES C##RA_DM.visit_occurrence(visit_occurrence_id) 
+
 create index C##RA_DM.MEASUREMENT_PK_IDX on C##RA_DM.MEASUREMENT(MEASUREMENT_ID) nologging;
 create index C##RA_DM.MEASUREMENT_PID_IDX on C##RA_DM.MEASUREMENT(PERSON_ID) nologging;
 create index C##RA_DM.MEASUREMENT_VID_IDX on C##RA_DM.MEASUREMENT(VISIT_OCCURRENCE_ID) nologging;
@@ -158,7 +158,7 @@ create table C##RA_DM.survey_conduct(
 	response_visit_occurrence_id	NUMBER NULL,
 	CONSTRAINT pk_survery_conduct PRIMARY KEY (survey_conduct_id)，
 	CONSTRAINT fk_survery_conduct_person FOREIGN KEY (person_id) REFERENCES C##RA_DM.person(person_id),
-	CONSTRAINT fk_survery_conduct_visit_occurrence FOREIGN KEY (visit_occurrence_id) REFERENCES C##RA_DM.visit_occurrence(visit_occurrence_id) -- 需要确认表名
+	CONSTRAINT fk_survery_conduct_visit_occurrence FOREIGN KEY (visit_occurrence_id) REFERENCES C##RA_DM.visit_occurrence(visit_occurrence_id) 
 );
 create index C##RA_DM.SURVERY_SCID_IDX on C##RA_DM.survey_conduct(survey_conduct_id) nologging;
 create index C##RA_DM.SURVERY_PID_IDX on C##RA_DM.survey_conduct(person_id) nologging;
@@ -192,7 +192,7 @@ create table C##RA_DM.drug_exposure(
 	dose_unit_source_value	VARCHAR2(50) NULL,
 	CONSTRAINT pk_drug_exposure PRIMARY KEY (drug_exposure_id)，
 	CONSTRAINT fk_drug_exposure_person FOREIGN KEY (person_id) REFERENCES C##RA_DM.person(person_id),
-	CONSTRAINT fk_drug_exposure_visit_occurrence FOREIGN KEY (visit_occurrence_id) REFERENCES C##RA_DM.visit_occurrence(visit_occurrence_id) -- 需要确认表名
+	CONSTRAINT fk_drug_exposure_visit_occurrence FOREIGN KEY (visit_occurrence_id) REFERENCES C##RA_DM.visit_occurrence(visit_occurrence_id) 
 );
 create index C##RA_DM.DRUG_PK_IDX on C##RA_DM.DRUG_EXPOSURE(DRUG_EXPOSURE_ID) nologging;
 create index C##RA_DM.DRUG_PID_IDX on C##RA_DM.DRUG_EXPOSURE(PERSON_ID) nologging;
@@ -220,15 +220,12 @@ create table C##RA_DM.specimen(
 	unit_source_value	VARCHAR2(50) NULL,
 	anatomic_site_source_value	VARCHAR2(50) NULL,
 	disease_status_source_value	VARCHAR2(50) NULL,
-	exp_id VARCHAR2(50) NOT NULL, -- 新增的字段
 	CONSTRAINT pk_specimen PRIMARY KEY (specimen_id),
 	CONSTRAINT fk_specimen_person FOREIGN KEY (person_id) REFERENCES C##RA_DM.person(person_id),
-	CONSTRAINT fk_specimen_exp FOREIGN KEY (exp_id) REFERENCES C##RA_DM.experiment(exp_id)
 );
 create index C##RA_DM.SPECIMEN_SID_IDX on C##RA_DM.specimen(specimen_id) nologging;
 create index C##RA_DM.SPECIMEN_PID_IDX on C##RA_DM.specimen(person_id) nologging;
 create index C##RA_DM.SPECIMEN_VID_IDX on C##RA_DM.specimen(visit_occurrence_id) nologging;
-create index C##RA_DM.SPECIMEN_EID_IDX on C##RA_DM.specimen(exp_id) nologging;
 
 
 --==========evaluation==========--
@@ -242,7 +239,7 @@ create table C##RA_DM.evaluation(
 	evaluation_value VARCHAR2(50) NULL,
 	CONSTRAINT pk_evaluation PRIMARY KEY (evaluation_id),
 	CONSTRAINT fk_evaluation_person FOREIGN KEY (person_id) REFERENCES C##RA_DM.person(person_id),
-	CONSTRAINT fk_evaluation_visit_occurrence FOREIGN KEY (visit_occurrence_id) REFERENCES C##RA_DM.visit_occurrence(visit_occurrence_id) -- 需要确认表名
+	CONSTRAINT fk_evaluation_visit_occurrence FOREIGN KEY (visit_occurrence_id) REFERENCES C##RA_DM.visit_occurrence(visit_occurrence_id)
 );
 
 create index C##RA_DM.EVALUATION_PID_IDX on C##RA_DM.evaluation(person_id) nologging;
@@ -261,7 +258,7 @@ create table C##RA_DM.adverse_event(
 	adverse_event_name VARCHAR2(50) NULL,
 	CONSTRAINT pk_adverse_event PRIMARY KEY (adverse_event_id),
 	CONSTRAINT fk_adverse_event_person FOREIGN KEY (person_id) REFERENCES C##RA_DM.person(person_id),
-	CONSTRAINT fk_adverse_event_visit_occurrence FOREIGN KEY (visit_occurrence_id) REFERENCES C##RA_DM.visit_occurrence(visit_occurrence_id) -- 需要确认表名	
+	CONSTRAINT fk_adverse_event_visit_occurrence FOREIGN KEY (visit_occurrence_id) REFERENCES C##RA_DM.visit_occurrence(visit_occurrence_id)
 );
 
 create index C##RA_DM.ADVERSE_PID_IDX on C##RA_DM.adverse_event(person_id) nologging;
@@ -281,7 +278,7 @@ create table C##RA_DM.multimodal_examination(
 	examination_image_address	VARCHAR2(50) NULL,
 	CONSTRAINT pk_multi_exam PRIMARY KEY (examination_id),
 	CONSTRAINT fk_multi_exam_person FOREIGN KEY (person_id) REFERENCES C##RA_DM.person(person_id),
-	CONSTRAINT fk_multi_exam_visit_occurrence FOREIGN KEY (visit_occurrence_id) REFERENCES C##RA_DM.visit_occurrence(visit_occurrence_id) -- 需要确认表名
+	CONSTRAINT fk_multi_exam_visit_occurrence FOREIGN KEY (visit_occurrence_id) REFERENCES C##RA_DM.visit_occurrence(visit_occurrence_id) 
 );
 create index C##RA_DM.MULTIMODAL_PID_IDX on C##RA_DM.multimodal_examination( person_id) nologging;
 create index C##RA_DM.MULTIMODAL_VID_IDX on C##RA_DM.multimodal_examination(visit_occurrence_id) nologging;
@@ -292,14 +289,14 @@ create index C##RA_DM.MULTIMODAL_EIID_IDX on C##RA_DM.multimodal_examination(exa
 create table C##RA_DM.experiment(
 	exp_id	VARCHAR2(100) NOT NULL,
 	exp_type	VARCHAR2(100)  NULL,
-	specimen_id	VARCHAR2(100) NOT NULL,
+	group_id	VARCHAR2(100) NOT NULL,
 	parameter_id	VARCHAR2(100) NOT NULL,
 	CONSTRAINT pk_experiment_exp PRIMARY KEY (exp_id),
-	CONSTRAINT fk_experiment_specimen PRIMARY KEY (specimen_id),
+	CONSTRAINT fk_experiment_group PRIMARY KEY (group_id),
 	CONSTRAINT fk_experiment_parameter FOREIGN KEY (parameter_id) REFERENCES C##RA_DM.parameter(parameter_id)
 );
 create index C##RA_DM.experiment_eid_idx on C##RA_DM.experiment(experiment_id) nologging;
-create index C##RA_DM.experiment_sid_idx on C##RA_DM.experiment(specimen_id) nologging;
+create index C##RA_DM.experiment_sid_idx on C##RA_DM.experiment(group_id) nologging;
 create index C##RA_DM.experiment_pid_idx on C##RA_DM.experiment(parameter_id) nologging;
 
 --==========analysis==========--
@@ -323,21 +320,16 @@ create index C##RA_DM.analysis_pid_idx on C##RA_DM.analysis(parameter_id) nologg
 create table C##RA_DM.group(
 	group_id VARCHAR2(100) NOT NULL,
 	group_name VARCHAR2(100) NULL,
-	specimen_id VARCHAR2(100) NOT NULL,
-	analysis_id VARCHAR2(100) NOT NULL,
-	exp_id VARCHAR2(100) NOT NULL,
-	person_id VARCHAR2(100) NOT NULL,
+	grouo_address VARCHAR2(200) NOT NULL,
+
 	CONSTRAINT pk_group PRIMARY KEY (group_id),
-	CONSTRAINT fk_group_specimen PRIMARY KEY (specimen_id) REFERENCES C##RA_DM.specimen(specimen_id),
+
 	CONSTRAINT fk_group_analysis FOREIGN KEY (analysis_id) REFERENCES C##RA_DM.analysis(analysis_id),
 	CONSTRAINT fk_group_exp FOREIGN KEY (exp_id) REFERENCES C##RA_DM.experiment(exp_id),
-	CONSTRAINT fk_group_person FOREIGN KEY (person_id) REFERENCES C##RA_DM.person(person_id)
 );
 create index C##RA_DM.group_gid_idx on C##RA_DM.group(group_id) nologging;
-create index C##RA_DM.group_sid_idx on C##RA_DM.group(specimen_id) nologging;
 create index C##RA_DM.group_aid_idx on C##RA_DM.group(analysis_id) nologging;
 create index C##RA_DM.group_eid_idx on C##RA_DM.group(exp_id) nologging;
-create index C##RA_DM.group_pid_idx on C##RA_DM.group(person_id) nologging;
 
 
 --==========parameter==========--
@@ -354,6 +346,23 @@ create table C##RA_DM.parameter(
 create index C##RA_DM.parameter_pid_idx on C##RA_DM.parameter(parameter_id) nologging;
 create index C##RA_DM.parameter_aid_idx on C##RA_DM.parameter(analysis_id) nologging;
 create index C##RA_DM.parameter_eid_idx on C##RA_DM.parameter(exp_id) nologging;
+
+
+--==========model==========--
+create table C##RA_DM.model(
+	model_id VARCHAR2(100) NOT NULL,
+	model_type VARCHAR2(100) NOT NULL,
+	model_file VARCHAR2(100) NULL,
+	model_file_address VARCHAR2(200)  NULL,
+	analysis_id VARCHAR2(100) NOT NULL,
+	exp_id VARCHAR2(100) NOT NULL,
+	CONSTRAINT pk_model PRIMARY KEY (model_id),
+	CONSTRAINT fk_model_analysis FOREIGN KEY (analysis_id) REFERENCES C##RA_DM.analysis(analysis_id),
+	CONSTRAINT fk_model_exp FOREIGN KEY (exp_id) REFERENCES C##RA_DM.experiment(exp_id)
+);
+create index C##RA_DM.model_pid_idx on C##RA_DM.model(model_id) nologging;
+create index C##RA_DM.model_aid_idx on C##RA_DM.model(analysis_id) nologging;
+create index C##RA_DM.model_eid_idx on C##RA_DM.model(exp_id) nologging;
 
 --==========mz_raw_data==========--
 create table C##RA_DM.mz_raw_data(
@@ -666,6 +675,8 @@ create table C##RA_DM.genomic_seq(
 	CONSTRAINT pk_genomic_seq PRIMARY KEY(genomic_seq_id),
 	CONSTRAINT fk_genomic_seq_specimen FOREIGN KEY (specimen_id) REFERENCES C##RA_DM.specimen(specimen_id),
 	CONSTRAINT fk_genomic_seq_exp FOREIGN KEY (exp_id) REFERENCES C##RA_DM.experiment(exp_id),
+	CONSTRAINT pk_genomic_seq_group FOREIGN KEY (group_name) REFERENCES C##RA_DM.group(group_name),
+
 );
 create index C##RA_DM.genomic_seq_gsidx on C##RA_DM.genomic_seq(genomic_seq_id) nologging;
 create index C##RA_DM.genomic_seq_sidx on C##RA_DM.genomic_seq(specimen_id) nologging;
