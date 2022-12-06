@@ -10,7 +10,7 @@ Ethical approval was obtained from the PUMCH Institutional Review Board before p
 
 You can download the latest release by clicking [here](https://github.com/RCHDS-Zhejianglab/RA-Biomedical-Information-Fusion-Analysis-Platform.git).
 
-or
+Preferably, you can download sqlmap by cloning the Git repository:
 
 ```shell
 
